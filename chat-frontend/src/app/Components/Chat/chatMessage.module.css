@@ -1,0 +1,19 @@
+.userMessage{
+    background-color: rgba(127, 193, 255, 0.418);
+    align-self: flex-end;
+    text-align: right;
+    max-width: 75%;
+}
+
+.agentMessage{
+    background-color: rgba(52, 100, 52, 0.562);
+    align-self: flex-start;
+    text-align: left;
+    max-width: 75%;
+}
+
+.message{
+    padding: 20px;
+    border-radius: 20px;
+    margin: 1vh 0;
+}

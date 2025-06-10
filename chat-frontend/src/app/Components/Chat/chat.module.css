@@ -1,0 +1,27 @@
+.chat{
+    overflow: hidden;
+    margin-left:0;
+    width: 100%;
+    justify-content: flex-end;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    height: 90svh;
+}
+
+.heading{
+    position: absolute;
+    top: 3vh;
+}
+
+.messagebox{
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 90%;
+    padding-bottom: 5vh;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+}

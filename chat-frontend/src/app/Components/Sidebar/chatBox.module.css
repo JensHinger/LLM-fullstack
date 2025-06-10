@@ -1,0 +1,11 @@
+.chatBox:hover{
+    background-color: #5e5e6e;
+}
+
+.chatBox{
+    margin: 5px 0px;
+    padding: 5px;
+    text-align: center;
+
+    border-radius: 10px;
+}

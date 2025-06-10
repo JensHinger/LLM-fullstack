@@ -1,0 +1,27 @@
+.inputContainer{
+    display: flex;
+    flex-direction: row;
+
+    position: absolute;
+    bottom: 3vh;
+}
+
+.input{
+    border: none;
+    padding: 1vw;
+
+    border-radius: 10px;
+    width: 40vw;
+}
+
+.button{
+    margin-left: 1vw;
+    border: none;
+
+    border-radius: 10px;
+    padding: 1vw
+}
+
+.button:hover{
+    cursor: pointer;
+}
