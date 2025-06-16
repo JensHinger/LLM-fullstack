@@ -14,8 +14,8 @@ class ChatService():
 
     def create_chat(self,
                     chat_name: str,
-                    context: str = "",
-                    model: str = os.getenv("STANDARD_LLM_MODEL")
+                    model: str,
+                    context: str = "",   
                     ):
         """
         Creates a new chat with no messages present
@@ -49,15 +49,28 @@ class ChatService():
         db_chat = self.repository.get_chat_by_id(chat_id)
         chat: Chat = Chat.from_db(db_chat)
 
-        if self.llm.model_name and self.llm.model_name != str(chat_id):
-            self.close_chat()
-            
+        self.close_chat()
         self.create_model(chat.chat_id, chat.context, chat.llm_model, previous_messages)
 
         return chat.to_json()
 
+    def delete_chat(self, chat_id: int):        
+        self.close_chat() # Delete Ollama model
+        self.repository.delete_chat_by_id(chat_id)
+
+    def change_chat(self, chat: Chat):
+        pass
+
+    """
+    LLM Relevant methods
+    """
+
     def create_model(self, chat_id, context, llm_model, previouse_messages=[]):
         self.llm.change_chat_context(chat_id, context, llm_model, previouse_messages)
 
-    def close_chat(self):
-        self.llm.destroy_model()
+    def close_chat(self, chat_id=None):
+        if chat_id == None:
+            self.llm.destroy_model()
+        else:
+            if self.llm.model_name and self.llm.model_name != str(chat_id):
+                self.llm.destroy_model()

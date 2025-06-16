@@ -11,3 +11,13 @@ export async function GET(
     const data = await res.json()
     return Response.json(data)
 }
+
+export async function DELETE(
+    request: Request,
+    {params}: {params: Promise<{chatID: string}>}
+) {
+    const chatID = (await params).chatID;
+
+    await fetch(process.env.API_URL + context_api_url + "/" + chatID, {method:"DELETE"})
+    return Response.json({ "message": "Chat deleted successfully!"})
+}

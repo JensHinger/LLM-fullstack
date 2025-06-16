@@ -33,6 +33,9 @@ class LLMService():
                 "temperature": temperature 
             }
         )
+
+        self.message_history.append({"role": response["message"]["role"], "content": response["message"]["content"]})
+
         return response
 
     def change_chat_context(
@@ -42,9 +45,7 @@ class LLMService():
             model_name=os.getenv("STANDARD_LLM_MODEL"),
             previous_messages=[]):
         self.model_name = str(chat_id)
-        self.message_history.extend(
-            [{"role": message.author, "content": message.text} for message in previous_messages]
-        )
+        self.message_history = [{"role": message.author, "content": message.text} for message in previous_messages]
 
         ollama.create(
             model=self.model_name, 
@@ -52,8 +53,9 @@ class LLMService():
             system=context)
 
     def destroy_model(self):
-        try:
-            ollama.delete(self.model_name)
-            self.model_name = ""
-        except ollama._types.ResponseError as e:
-            print(e)
+        if self.model_name != "":
+            try:
+                ollama.delete(self.model_name)
+                self.model_name = ""
+            except ollama._types.ResponseError as e:
+                print(e)

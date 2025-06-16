@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import IChat from "@/Models/IChat";
 import ChatInput from "./ChatInput";
 import IMessage from "@/Models/IMessage";
+import Link from "next/link";
 
 const sendMessage = async (chatId: number, message: IMessage ) => {
     const response = await fetch(`/api/message/${chatId}`, {
@@ -80,7 +81,6 @@ export default function Chat({ chat } : {chat: IChat}){
 
     useEffect(() => {
         // Get all messages and creates the chatbot
-        console.log("CALLED")
         getMessages(chat.chat_id)
             .then((data) => {
                 addMessage(data)
@@ -94,9 +94,18 @@ export default function Chat({ chat } : {chat: IChat}){
 
     return (
         <div className={styles.chat}>
-            <h2 className={styles.heading}>
-                {chat.chat_name}
-            </h2>
+            <div className={styles.headingBox}>
+                <h2 className={styles.heading}>
+                    {chat.chat_name}
+                </h2>
+                <Link 
+                    className={styles.alterChatButton}
+                    href={"https://www.google.com"}>
+                    Change Chat Settings
+                </Link>
+            </div>
+
+
             <div id="messagebox" className={styles.messagebox}>
                 {messages?.map((message: IMessage) => {
                     return (<ChatMessage messageProps={message} key={message.message_id}/>)

@@ -4,6 +4,7 @@ from service.ChatService import ChatService
 from service.MessageService import MessageService
 from service.LLMService import LLMService
 from dotenv import load_dotenv
+import os
 load_dotenv("../.env")
 
 app = Flask(__name__)
@@ -24,18 +25,19 @@ def handle_chats():
         body = request.json
         chat_name = body["chatName"]
         
-        created_chat = chatService.create_chat(chat_name=chat_name)
+        created_chat = chatService.create_chat(chat_name=chat_name, model=os.getenv("STANDARD_LLM_MODEL"))
 
         return created_chat
     
-@app.route("/api/v1/chat/<int:chat_id>", methods=["PUT", "DELTE"])
+@app.route("/api/v1/chat/<int:chat_id>", methods=["PUT", "DELETE"])
 def handle_chat(chat_id: int):
     # TODO add possibility to change LLM model
     # TODO add possibility to add and change context
     if request.method == "PUT":
         print("Should change a chat")
     elif request.method == "DELETE":
-        print("Should delete a specific chat")
+        chatService.delete_chat(chat_id)
+        return ""
 
 @app.route("/api/v1/messages/<int:chat_id>", methods=["GET", "POST"])
 def handle_messages(chat_id: int):
@@ -59,6 +61,10 @@ def handle_messages(chat_id: int):
 
         return response_json
     
+@app.route("/api/v1/message/<int:message_id>", methods=["DELETE"])
+def handle_message(message_id: int):
+    if request.method == "DELETE":
+        return messageService.delete_message(message_id) # Just returns message_id of deleted message
 
 if __name__ == "__main__":
     #created_chat = chatService.create_chat("Test132", "Be like a witch")

@@ -78,3 +78,6 @@ class MessageService:
 
         response = self.llm_service.generate_answer(new_message, chat_id)
         return response
+    
+    def delete_message(self, message_id: int):
+        return self.repository.delete_message_by_id(message_id)

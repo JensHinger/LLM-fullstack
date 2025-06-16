@@ -16,3 +16,9 @@ class MessageRepository():
             all_messages = cursor.fetchall()
 
         return all_messages
+
+    def delete_message_by_id(self, message_id: int):
+        with DatabaseConnection() as cursor:
+            cursor.execute("DELETE FROM messages WHERE messageID=%s", (message_id, ))
+
+        return message_id

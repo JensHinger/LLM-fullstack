@@ -4,8 +4,25 @@
 
 .chatBox{
     margin: 5px 0px;
-    padding: 5px;
-    text-align: center;
-
+    display: flex;
     border-radius: 10px;
+}
+
+.chatLink{
+    flex-grow: 9;
+    text-align: center;
+    margin:auto;
+    padding: 5px;
+}
+
+.deleteChat{
+    margin: auto 5px;
+    padding: 4px;
+    font-weight: 650;
+}
+
+.deleteChat:hover{
+    background-color: rgb(49, 49, 49);
+    border-radius: 5px;
+    cursor: pointer;
 }

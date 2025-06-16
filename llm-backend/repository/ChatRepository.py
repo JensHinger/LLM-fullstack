@@ -24,3 +24,11 @@ class ChatRepository():
             chat = cursor.fetchone()
 
         return chat
+
+    def delete_chat_by_id(self, id: int):
+        with DatabaseConnection() as cursor:
+            cursor.execute("DELETE FROM messages WHERE chatID = %s", (id, ))
+            cursor.execute("DELETE FROM chats WHERE chatID=%s", (id, ))
+    
+    def change_chat(self, chat: Chat):
+        pass

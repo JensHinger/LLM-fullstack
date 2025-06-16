@@ -1,0 +1,11 @@
+.deleteChat{
+    margin: auto 5px;
+    padding: 4px;
+    font-weight: 650;
+}
+
+.deleteChat:hover{
+    background-color: rgb(49, 49, 49);
+    border-radius: 5px;
+    cursor: pointer;
+}
