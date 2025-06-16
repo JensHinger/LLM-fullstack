@@ -1,11 +1,13 @@
 .deleteChat{
+    background-color: inherit;
     margin: auto 5px;
     padding: 4px;
     font-weight: 650;
+    border: none;
+    border-radius: 5px;
 }
 
 .deleteChat:hover{
-    background-color: rgb(49, 49, 49);
-    border-radius: 5px;
+    background-color: #3a3a42;
     cursor: pointer;
 }
