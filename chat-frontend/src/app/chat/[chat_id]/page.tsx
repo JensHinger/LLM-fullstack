@@ -6,6 +6,7 @@ interface chatParams{
     searchParams: Promise<{ [key: string ]: string | undefined}>
 }
 
+
 export default async function Page(chatParams: chatParams) {
 
     const { chat_id } = await chatParams.params;

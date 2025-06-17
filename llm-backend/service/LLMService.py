@@ -22,7 +22,7 @@ class LLMService():
         context = self.repository.retrieve_information(embeded_query)
 
         self.message_history.append({"role": message["role"], "content": message["content"]})
-
+        print("\n".join(f"{message["role"]}: {message["content"][:20]}" for message in self.message_history))
         message["content"] = f'Answer only this question: {message["content"]} \n\n  with the following context {context}'
 
         # Use .chat as it can support prior chat history compared to .generate
@@ -51,6 +51,20 @@ class LLMService():
             model=self.model_name, 
             from_=model_name, 
             system=context)
+
+    def update_model(
+            self,
+            chat_id,
+            context="",
+            model_name = os.getenv("STANDARD_LLM_MODEL")
+    ):
+        if self.model_name == str(chat_id):
+            print(context)
+            ollama.create(
+                model=self.model_name,
+                from_=model_name,
+                system=context
+            )
 
     def destroy_model(self):
         if self.model_name != "":

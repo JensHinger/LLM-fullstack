@@ -22,3 +22,15 @@ class Model(ABC):
         built_obj = cls(**class_params)
 
         return built_obj
+    
+    @classmethod
+    def from_json(cls, json):
+        """Build objects from json"""
+        attributes = cls.__dict__["__static_attributes__"]
+        class_params = dict()
+
+        for attribute in attributes:
+            class_params[attribute] = json[attribute]
+        built_obj = cls(**class_params)
+
+        return built_obj

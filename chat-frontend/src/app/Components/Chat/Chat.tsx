@@ -6,7 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import IChat from "@/Models/IChat";
 import ChatInput from "./ChatInput";
 import IMessage from "@/Models/IMessage";
-import Link from "next/link";
+import ChatSettings from "./ChatSettings";
+import { useSearchParams, useRouter } from "next/navigation";
 
 const sendMessage = async (chatId: number, message: IMessage ) => {
     const response = await fetch(`/api/message/${chatId}`, {
@@ -22,11 +23,38 @@ const getMessages = async (chatId: number) => {
     return await respone.json()
 }
 
+const changeChat = async (chat: IChat, formData: changeChatForm) => {
+    chat = {...chat, ...formData}
+    const response = await fetch(`/api/chat/${chat.chat_id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(chat),
+    })
+    return await response.json()
+}
+
+interface changeChatForm{
+    chat_name: string,
+    context: string,
+}
+
 // Send button should work when pressing Enter
 export default function Chat({ chat } : {chat: IChat}){
 
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
     const [messages, setMessages] = useState<Array<IMessage>>([]);
     const [currentMessage, setCurrentMessage] = useState<string>("");
+
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    // Formdata by default has values of current chat
+    const [formData, setFormData] = useState<changeChatForm>({
+        chat_name: chat.chat_name,
+        context: chat.context
+    });
 
     const bottomMessage = useRef<HTMLDivElement>(null);
 
@@ -48,6 +76,25 @@ export default function Chat({ chat } : {chat: IChat}){
 
     function scrollToNewestMessage() {
         bottomMessage.current?.scrollIntoView({behavior:"smooth"})
+    }
+
+    function handleChatChangeFormChange(e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) {
+        setFormData({...formData, [e.target.name]: e.target.value})
+    }
+
+    async function handleChatChangeSubmit(e: React.FormEvent) {
+        e.preventDefault()
+        let changed_chat = changeChat(chat, formData)
+        const new_chat: IChat= await changed_chat
+
+        const params = new URLSearchParams(searchParams.toString())
+        params.set("chatName", new_chat.chat_name)
+        params.set("context", new_chat.context)
+        params.set("llmModel", new_chat.llm_model)
+
+        router.replace(`?${params.toString()}`)
+
+        setModalOpen(false)
     }
 
     async function handleSendMessage(){
@@ -94,15 +141,39 @@ export default function Chat({ chat } : {chat: IChat}){
 
     return (
         <div className={styles.chat}>
+            <ChatSettings
+            isOpen={modalOpen}
+            onClose={() => setModalOpen(false)} 
+            chat={chat}>
+                <form onSubmit={handleChatChangeSubmit}>
+                    <div>
+                        <label>Chat Name</label>
+                        <input 
+                            name="chat_name"
+                            type="text"
+                            value={formData?.chat_name}
+                            onChange={handleChatChangeFormChange}
+                            required/>
+                    </div>
+                    <div>
+                        <label>Context</label>
+                        <textarea 
+                            name="context"
+                            onChange={handleChatChangeFormChange}
+                            value={formData?.context}/>
+                    </div>
+                    <button type="submit">Submit changes</button>
+                </form>
+            </ChatSettings>
             <div className={styles.headingBox}>
                 <h2 className={styles.heading}>
                     {chat.chat_name}
                 </h2>
-                <Link 
+                <button 
                     className={styles.alterChatButton}
-                    href={"https://www.google.com"}>
+                    onClick={() => setModalOpen(true)}>
                     Change Chat Settings
-                </Link>
+                </button>
             </div>
 
 

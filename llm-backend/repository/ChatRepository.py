@@ -30,5 +30,10 @@ class ChatRepository():
             cursor.execute("DELETE FROM messages WHERE chatID = %s", (id, ))
             cursor.execute("DELETE FROM chats WHERE chatID=%s", (id, ))
     
-    def change_chat(self, chat: Chat):
-        pass
+    def update_chat(self, chat: Chat) -> Chat:
+        with DatabaseConnection() as cursor:
+            cursor.execute("UPDATE chats SET chatName=%s, context=%s, llmModel=%s WHERE chatID=%s RETURNING *", 
+                           (chat.get_chat_name(), chat.get_context(), chat.get_llm_model(), chat.get_chat_id()))
+            updated_chat = cursor.fetchone()
+
+        return updated_chat

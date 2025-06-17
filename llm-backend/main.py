@@ -31,10 +31,12 @@ def handle_chats():
     
 @app.route("/api/v1/chat/<int:chat_id>", methods=["PUT", "DELETE"])
 def handle_chat(chat_id: int):
-    # TODO add possibility to change LLM model
-    # TODO add possibility to add and change context
     if request.method == "PUT":
-        print("Should change a chat")
+        chat = request.json
+        print(chat)
+        updated_chat = chatService.update_chat(chat)
+
+        return updated_chat
     elif request.method == "DELETE":
         chatService.delete_chat(chat_id)
         return ""

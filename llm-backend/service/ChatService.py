@@ -58,8 +58,17 @@ class ChatService():
         self.close_chat() # Delete Ollama model
         self.repository.delete_chat_by_id(chat_id)
 
-    def change_chat(self, chat: Chat):
-        pass
+    def update_chat(self, chat: Chat):
+        chat = Chat.from_json(chat)
+        updated_chat = self.repository.update_chat(chat)
+
+        self.llm.update_model(
+            chat_id=chat.chat_id,
+            context=chat.context,
+            model_name=chat.llm_model
+        )
+        
+        return Chat.from_db(updated_chat).to_json()
 
     """
     LLM Relevant methods
