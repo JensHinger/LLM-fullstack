@@ -13,7 +13,7 @@ chatService: ChatService = ChatService()
 messageService: MessageService = MessageService()
 llmService: LLMService = LLMService()
 
-@app.route("/api/v1/chats", methods=["GET", "POST"])
+@app.route("/api/v1/chats", methods=["GET", "POST", "DELETE"])
 def handle_chats():
     """
     Returns all chats
@@ -28,6 +28,9 @@ def handle_chats():
         created_chat = chatService.create_chat(chat_name=chat_name, model=os.getenv("STANDARD_LLM_MODEL"))
 
         return created_chat
+    elif request.method == "DELETE":
+        chatService.close_chat()
+        return ""
     
 @app.route("/api/v1/chat/<int:chat_id>", methods=["PUT", "DELETE"])
 def handle_chat(chat_id: int):

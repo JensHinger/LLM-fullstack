@@ -1,5 +1,3 @@
-import Chat from "@/app/Components/Chat/Chat"
-
 const context_api_url = "/api/v1/chats" 
 
 export async function GET(request: Request){
