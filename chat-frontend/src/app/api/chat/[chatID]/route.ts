@@ -28,7 +28,6 @@ export async function PUT(
 ) {
     const chatID = (await params).chatID;
     const payload = await request.json()
-    console.log(payload)
     const res = await fetch(process.env.API_URL + context_api_url + "/" + chatID, {
         method:"PUT",
         headers: {

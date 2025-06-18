@@ -1,4 +1,66 @@
 .container{
     position: fixed;
-    background-color: rgba(83, 83, 83, 0.171);
+    top: 25%;
+    left: 50%;
+    transform: translate(-30%, 0);
+
+    background-color: rgba(34, 34, 34, 0.801);
+    display: flex;
+    flex-direction: column;
+
+    padding: 2vw;
+    border-radius: 20px;
+    height: 50vh;
+    width: 50vw;
+}
+
+.headingContainer{
+    display: flex;
+    margin-bottom: 3vh;
+}
+
+.inputContainer{
+    display: flex;
+}
+
+.closeButton{
+    margin-left: auto;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-left: 1vw;
+    row-gap: 2vh;
+}
+
+.changeLabel{
+    padding-right: 10px;
+    margin-right: auto;
+    font-size: larger;
+    align-self: center;
+}
+
+.changeChatInput{
+    padding: 5px;
+    border: None;
+    border-radius: 10px;
+    width: 35vw;
+    resize: none;
+    font-size: large;
+}
+
+.submitChangeButton{
+    cursor: pointer;
+    border: None;
+    border-radius: 10px;
+    width: 50%;
+    height: 3vh;
+    align-self: center;
+    margin-top: auto;
 }

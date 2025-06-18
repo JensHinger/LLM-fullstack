@@ -144,26 +144,10 @@ export default function Chat({ chat } : {chat: IChat}){
             <ChatSettings
             isOpen={modalOpen}
             onClose={() => setModalOpen(false)} 
-            chat={chat}>
-                <form onSubmit={handleChatChangeSubmit}>
-                    <div>
-                        <label>Chat Name</label>
-                        <input 
-                            name="chat_name"
-                            type="text"
-                            value={formData?.chat_name}
-                            onChange={handleChatChangeFormChange}
-                            required/>
-                    </div>
-                    <div>
-                        <label>Context</label>
-                        <textarea 
-                            name="context"
-                            onChange={handleChatChangeFormChange}
-                            value={formData?.context}/>
-                    </div>
-                    <button type="submit">Submit changes</button>
-                </form>
+            formData={formData}
+            handleChatChangeSubmit={handleChatChangeSubmit}
+            handleChatChangeFormChange={handleChatChangeFormChange}>
+                
             </ChatSettings>
             <div className={styles.headingBox}>
                 <h2 className={styles.heading}>
