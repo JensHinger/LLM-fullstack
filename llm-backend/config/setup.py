@@ -1,5 +1,4 @@
 setup_commands = (
-
     """
     CREATE EXTENSION IF NOT EXISTS vector;
     """,
@@ -20,8 +19,16 @@ setup_commands = (
     );
     """,
     """
+    CREATE TABLE IF NOT EXISTS knowledgeFiles (
+        fileID BIGSERIAL PRIMARY KEY,
+        path text,
+        hash bytea
+    );
+    """,
+    """
     CREATE TABLE IF NOT EXISTS chunks (
         id bigserial PRIMARY KEY,
+        fileID integer REFERENCES knowledgeFiles(fileID),
         content text,
         embedding vector(768)
     );
