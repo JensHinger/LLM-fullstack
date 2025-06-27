@@ -7,7 +7,7 @@ A Fullstack application using ollama, flask, postgre and next.js. The purpose is
 - [x] Create Vector database with pgvector and create module for Retrieval Augmented Generation (RAG)
 - [x] Style Interface a little bit
 - [X] Markdown correctly rendered
-- [ ] Create component to embed obsidian knowlegdebase
+- [X] Create component to embed obsidian knowlegdebase
 - [ ] Secure Inputs (page changes or closes when user prompts something, while generating user should not make another prompt)
 - [X] Add Options to each chat for e.g. adding context
 - [X] Add Option to delete chats
