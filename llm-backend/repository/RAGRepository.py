@@ -23,3 +23,11 @@ class RAGRepository():
     def delete_chunk_by_file_id(self, fileID: int):
         with DatabaseConnection() as cursor:
             cursor.execute("DELETE FROM chunks WHERE fileID=%s", (fileID, ))
+
+    def delete_chunks_of_non_existing_files(self, existing_paths: list[str]):
+        with DatabaseConnection() as cursor:
+            cursor.execute("""
+                DELETE FROM chunks WHERE fileID IN (
+                    SELECT fileID FROM knowledgeFiles
+                    WHERE path != ALL(%s)
+                )""", (existing_paths, ))
