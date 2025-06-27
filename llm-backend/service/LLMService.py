@@ -22,7 +22,6 @@ class LLMService():
         context = self.repository.retrieve_information(embeded_query)
 
         self.message_history.append({"role": message["role"], "content": message["content"]})
-        print("\n".join(f"{message["role"]}: {message["content"][:20]}" for message in self.message_history))
         message["content"] = f'Answer only this question: {message["content"]} \n\n  with the following context {context}'
 
         # Use .chat as it can support prior chat history compared to .generate

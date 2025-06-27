@@ -36,7 +36,6 @@ def handle_chats():
 def handle_chat(chat_id: int):
     if request.method == "PUT":
         chat = request.json
-        print(chat)
         updated_chat = chatService.update_chat(chat)
 
         return updated_chat
